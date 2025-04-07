@@ -209,21 +209,6 @@ class Astar:
         # TODO: Implement A* algorithm logic
         # YOUR CODE STARTS HERE
         # add the neighbor point to open set
-        
-        neighbor_list = Astar.get_neighbor(self, s, graph_vert_list, adjacency_matrix)
-        for neighbor in neighbor_list:
-            parent_node[neighbor] = s
-
-            cost_g = Astar.cal_expand_cost(self, s, neighbor, edge_dict)
-            cost_h = Astar.calH(self, neighbor, g)
-            cost_f = cost_g + cost_h
-
-            costs[neighbor] = cost_g
-            open_set.put((cost_f, neighbor))
-        
-        # delete the start point from open set
-        _, point = open_set.get()
-        closed_set.add(s)
 
         # begin A* loop
         while not open_set.empty():
