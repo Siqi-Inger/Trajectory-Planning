@@ -52,11 +52,6 @@ class RRTPlanner:
             rand_node = self.sample_random_point()  
             nearest_node = self.find_nearest_node(rand_node)  
             new_node = self.steer(nearest_node, rand_node)
-            '''
-            d = np.array([nearest_node.x, nearest_node.y]) - np.array([new_node.x, new_node.y])
-            distance = np.linalg.norm(d)
-            print((new_node.x, new_node.y), distance)
-            ''' 
 
             if new_node and not self.is_colliding(new_node, nearest_node): 
                 self.tree.append(new_node)
@@ -184,30 +179,6 @@ class RRTPlanner:
                 if self.obstacles.map[row, col] == True:
                     return True
         return False
-        
-        '''
-        d_x = new_node.x - nearest_node.x
-        d_y = new_node.y - nearest_node.y
-        if d_x != 0:
-            # the line exists slope
-            m = d_y / d_x
-            b = new_node.y - m * new_node.x
-            for x in range(int(min(new_node.x, nearest_node.x)), int(max(new_node.x, new_node.x))):
-                y = m * x + b
-                y = int(y)
-                # print(x, y)
-                if self.obstacles.map[x, y] == True:
-                    print("collision")
-                    return True
-        else:
-            # the robot just go up and down
-            for y in range(int(min(new_node.y, nearest_node.y)), int(max(new_node.y, nearest_node.y))):
-                if self.obstacles.map[new_node[0], y] == True:
-                    print("collision")
-                    return True
-        
-        return False
-        '''
  
     def reached_goal(self, new_node):
         """
@@ -230,14 +201,7 @@ class RRTPlanner:
                 self.goal.parent = new_node
                 return True
             else:
-                return False
-        '''
-        if new_node.x == self.goal.x and new_node.y == self.goal.y:
-            self.goal.parent = new_node.parent
-            return True
-        else:
-            return False
-        '''   
+                return False   
 
     def construct_path(self, end_node):
         """
