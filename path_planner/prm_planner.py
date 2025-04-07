@@ -146,15 +146,6 @@ class PRMPlanner:
         Returns:
             bool: True if there is a collision, False otherwise.
         """
-        '''
-        node1 = Node(node1)
-        node2 = Node(node2)
-        no_collision = self.obstacles.is_edge_valid([node1, node2], 1, 10, None)
-        if no_collision:
-            return False
-        else:
-            return True
-        '''
         # change the row col to x, y
         
         x_1 = node1[1] * 10
@@ -215,9 +206,11 @@ class PRMPlanner:
             cost = edges[i][1]
             idx_1 = sample_node_list.index(node_1)
             idx_2 = sample_node_list.index(node_2)
+            ''''
             if idx_1 == 0  and idx_2 == 1:
                 print(i, node_1, node_2)
-                print(PRMPlanner.is_colliding(self, node_1, node_2))
+                print(PRMPlanner.is_colliding(self, node_1, node_2))'
+            '''
             if cost < cost_matrix[idx_1][idx_2] or cost < cost_matrix[idx_2][idx_1]:
                 cost_matrix[idx_1][idx_2] = cost
                 cost_matrix[idx_2][idx_1] = cost
@@ -275,17 +268,6 @@ class PRMPlanner:
         dist[start] = 0
         
         # add start node's neighbor in the open set
-        neighbor_idx_list = PRMPlanner.get_neighbor(self, start, cost_matrix, sample_node_list)
-        for idx in neighbor_idx_list:
-            neighbor_node = sample_node_list[idx]
-            start_idx = sample_node_list.index(start)
-            cost = cost_matrix[start_idx][idx]
-            dist[neighbor_node] = cost
-            open_set.put((cost, neighbor_node))
-            parent_node[neighbor_node] = start
-        
-        close_set.add(start)
-
         # begin the loop
         while not open_set.empty():
             _, point = open_set.get()
@@ -311,6 +293,7 @@ class PRMPlanner:
                             open_set.put((cost, neighbor_node))
                             parent_node[neighbor_node] = point
                     else:
+                        cost = cost_matrix[point_idx][idx]
                         dist[neighbor_node] = cost_matrix[point_idx][idx]
                         open_set.put((cost, neighbor_node))
                         parent_node[neighbor_node] = point
@@ -319,6 +302,6 @@ class PRMPlanner:
 
         print(path)
 
-        # a* algorithm
+        # a* algorithm is similart with dijkstra algorithm.
 
         return path
